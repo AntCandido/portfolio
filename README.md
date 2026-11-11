@@ -1,4 +1,4 @@
-<h1>Portfólio Ednario Andrade</h1>
+<h1>Portfólio Candido</h1>
 
 > Status: Developing ⚠️
 
