@@ -15,11 +15,11 @@ function Button({
 }: ButtonProps) {
   const variantStyles = {
     primary:
-      'bg-gradient-to-r from-blue-600 via-blue-500 to-sky-500 hover:from-blue-500 hover:to-sky-400 text-white font-semibold shadow-[0_0_24px_rgba(37,99,235,0.4)] hover:shadow-[0_0_32px_rgba(56,189,248,0.55)] border border-sky-400/30',
+      'bg-gradient-to-r from-orange-600 via-orange-500 to-amber-500 hover:from-orange-500 hover:to-amber-400 text-white font-semibold shadow-[0_0_24px_rgba(249,115,22,0.4)] hover:shadow-[0_0_32px_rgba(251,146,60,0.6)] border border-orange-400/30',
     secondary:
-      'bg-slate-900/80 hover:bg-slate-800 text-slate-100 border border-white/10 hover:border-blue-500/40 backdrop-blur-md shadow-sm hover:shadow-[0_0_15px_rgba(59,130,246,0.2)]',
+      'bg-slate-900/80 hover:bg-slate-800 text-slate-100 border border-white/10 hover:border-orange-500/40 backdrop-blur-md shadow-sm hover:shadow-[0_0_18px_rgba(249,115,22,0.2)]',
     outline:
-      'bg-transparent hover:bg-blue-950/40 text-sky-300 border border-blue-500/50 hover:border-sky-400 hover:shadow-[0_0_15px_rgba(56,189,248,0.25)]',
+      'bg-transparent hover:bg-orange-950/40 text-orange-300 border border-orange-500/50 hover:border-orange-400 hover:shadow-[0_0_15px_rgba(251,146,60,0.25)]',
   }
 
   const sizeStyles = {

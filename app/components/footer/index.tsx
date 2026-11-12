@@ -1,8 +1,12 @@
 'use client'
 
-import { FiArrowUp, FiHeart, FiGithub, FiLinkedin, FiMail } from 'react-icons/fi'
+import { FiArrowUp, FiMail, FiMessageSquare, FiLinkedin } from 'react-icons/fi'
+import Logo from '@/app/components/brand/logo'
+import { IC_ASSESSORIA_INFO } from '@/app/data/ic-assessoria'
 
 export default function Footer() {
+  const { brand, contact } = IC_ASSESSORIA_INFO
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
@@ -10,61 +14,79 @@ export default function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="relative border-t border-white/[0.08] bg-[#060913] pt-16 pb-12 overflow-hidden">
-      {/* Top ambient blue line */}
+    <footer className="relative border-t border-white/[0.08] bg-[#07080c] pt-16 pb-12 overflow-hidden">
+      {/* Top ambient orange line */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-px bg-gradient-to-r from-transparent via-blue-500/50 to-transparent"
+        className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-px bg-gradient-to-r from-transparent via-orange-500/50 to-transparent"
       />
 
       <div className="container flex flex-col gap-10">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex flex-col items-center md:items-start text-center md:text-left gap-2">
-            <div className="flex items-center gap-2.5">
-              <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-blue-500/10 border border-blue-500/30">
-                <span className="font-mono font-bold text-xs text-sky-400">EA</span>
-              </div>
-              <span className="text-lg font-semibold text-gray-100">
-                Ednario Andrade
-              </span>
-            </div>
-            <p className="text-sm text-gray-400 max-w-md">
-              Engenharia de software com foco em backend, APIs resilientes, microserviços e alta escalabilidade.
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
+          <div className="flex flex-col items-center lg:items-start text-center lg:text-left gap-3">
+            <Logo size="md" />
+            <p className="text-sm text-slate-400 max-w-lg mt-1">
+              Assessoria técnica especializada em vigilância em saúde, monitoramento de indicadores, qualificação de bases de dados e apoio à gestão orientada por evidências.
+            </p>
+            <p className="text-xs text-orange-400/90 font-mono">
+              Responsável Técnico: {brand.responsible}
             </p>
           </div>
 
+          {/* Navigation Links in Footer */}
+          <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-slate-400">
+            <a href="#inicio" className="hover:text-orange-400 transition-colors">
+              Início
+            </a>
+            <a href="#sobre" className="hover:text-orange-400 transition-colors">
+              Sobre
+            </a>
+            <a href="#servicos" className="hover:text-orange-400 transition-colors">
+              Serviços
+            </a>
+            <a href="#importancia-dados" className="hover:text-orange-400 transition-colors">
+              Dados na Saúde
+            </a>
+            <a href="#diferenciais" className="hover:text-orange-400 transition-colors">
+              Diferenciais
+            </a>
+            <a href="#contato" className="hover:text-orange-400 transition-colors">
+              Contato
+            </a>
+          </div>
+
           {/* Socials & Back to Top */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             <a
-              href="https://github.com/ednarioandrade"
+              href={contact.channels[0].href}
               target="_blank"
               rel="noreferrer"
-              aria-label="GitHub"
-              className="p-2.5 rounded-xl bg-slate-900/60 border border-white/10 text-gray-400 hover:text-sky-400 hover:border-blue-500/40 hover:shadow-[0_0_15px_rgba(59,130,246,0.3)] transition-all"
+              aria-label="WhatsApp"
+              className="p-2.5 rounded-xl bg-slate-900/60 border border-white/10 text-slate-400 hover:text-emerald-400 hover:border-emerald-500/40 hover:shadow-[0_0_15px_rgba(16,185,129,0.3)] transition-all"
             >
-              <FiGithub size={18} />
+              <FiMessageSquare size={18} />
             </a>
             <a
-              href="https://linkedin.com/in/ednarioandrade"
+              href={contact.channels[1].href}
+              aria-label="E-mail"
+              className="p-2.5 rounded-xl bg-slate-900/60 border border-white/10 text-slate-400 hover:text-orange-400 hover:border-orange-500/40 hover:shadow-[0_0_15px_rgba(249,115,22,0.3)] transition-all"
+            >
+              <FiMail size={18} />
+            </a>
+            <a
+              href={contact.channels[2].href}
               target="_blank"
               rel="noreferrer"
               aria-label="LinkedIn"
-              className="p-2.5 rounded-xl bg-slate-900/60 border border-white/10 text-gray-400 hover:text-sky-400 hover:border-blue-500/40 hover:shadow-[0_0_15px_rgba(59,130,246,0.3)] transition-all"
+              className="p-2.5 rounded-xl bg-slate-900/60 border border-white/10 text-slate-400 hover:text-sky-400 hover:border-sky-500/40 hover:shadow-[0_0_15px_rgba(56,189,248,0.3)] transition-all"
             >
               <FiLinkedin size={18} />
-            </a>
-            <a
-              href="#contato"
-              aria-label="Contato direto"
-              className="p-2.5 rounded-xl bg-slate-900/60 border border-white/10 text-gray-400 hover:text-sky-400 hover:border-blue-500/40 hover:shadow-[0_0_15px_rgba(59,130,246,0.3)] transition-all"
-            >
-              <FiMail size={18} />
             </a>
 
             <button
               onClick={scrollToTop}
               aria-label="Voltar ao topo"
-              className="group flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-900/80 border border-white/10 text-xs font-mono text-gray-400 hover:text-white hover:border-blue-500/50 hover:bg-blue-950/30 transition-all duration-300"
+              className="group flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-900/80 border border-white/10 text-xs font-mono text-slate-400 hover:text-white hover:border-orange-500/50 hover:bg-orange-950/30 transition-all duration-300"
             >
               <span>Topo</span>
               <FiArrowUp className="group-hover:-translate-y-0.5 transition-transform" size={14} />
@@ -74,11 +96,10 @@ export default function Footer() {
 
         <div className="h-px w-full bg-white/[0.05]" />
 
-        <div className="flex flex-col sm:flex-row items-center justify-between text-xs text-gray-500 gap-3">
-          <p>© {currentYear} Ednario Andrade. Todos os direitos reservados.</p>
-          <p className="flex items-center gap-1.5">
-            <span>Construído com Next.js &</span>
-            <FiHeart className="text-sky-400 fill-sky-400" size={12} />
+        <div className="flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-3">
+          <p>© {currentYear} IC Assessoria – Antônio Cândido. Todos os direitos reservados.</p>
+          <p className="text-slate-400">
+            Vigilância e Análise de Dados em Saúde
           </p>
         </div>
       </div>

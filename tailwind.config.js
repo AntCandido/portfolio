@@ -10,20 +10,33 @@ module.exports = {
       sans: ['var(--font-inter)', 'sans-serif'],
     },
     extend: {
+      colors: {
+        ic: {
+          orange: '#f97316',
+          'orange-light': '#fb923c',
+          'orange-dark': '#ea580c',
+          'orange-glow': '#ff7a00',
+          dark: '#08090d',
+          'dark-card': '#0f1118',
+          'dark-elevated': '#151822',
+        },
+      },
       backgroundImage: {
         'hero-image': "url('/images/hero-bg.png')",
-        'grid-pattern': "radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px)",
+        'grid-pattern':
+          'radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px)',
       },
       fontFamily: {
         mono: ['var(--font-plex-mono)', 'monospace'],
       },
       boxShadow: {
-        button: '0px 0px 48px 4px rgba(37, 99, 235, 0.45)',
-        'button-hover': '0px 0px 60px 8px rgba(56, 189, 248, 0.65)',
-        photo: '0 24px 80px -20px rgba(0, 0, 0, 0.8)',
-        'glow-blue': '0 0 25px -5px rgba(59, 130, 246, 0.3)',
-        'glow-lg': '0 0 50px -10px rgba(37, 99, 235, 0.35)',
-        'card-hover': '0 20px 40px -15px rgba(0, 0, 0, 0.7), 0 0 25px -5px rgba(59, 130, 246, 0.2)',
+        button: '0px 0px 48px 4px rgba(249, 115, 22, 0.45)',
+        'button-hover': '0px 0px 60px 8px rgba(251, 146, 60, 0.65)',
+        photo: '0 24px 80px -20px rgba(0, 0, 0, 0.85)',
+        'glow-orange': '0 0 25px -5px rgba(249, 115, 22, 0.35)',
+        'glow-lg': '0 0 50px -10px rgba(234, 88, 12, 0.35)',
+        'card-hover':
+          '0 20px 40px -15px rgba(0, 0, 0, 0.8), 0 0 25px -5px rgba(249, 115, 22, 0.25)',
       },
       keyframes: {
         'fade-up': {
@@ -36,7 +49,7 @@ module.exports = {
         },
         'pulse-subtle': {
           '0%, 100%': { opacity: '1', transform: 'scale(1)' },
-          '50%': { opacity: '0.8', transform: 'scale(1.03)' },
+          '50%': { opacity: '0.85', transform: 'scale(1.02)' },
         },
         shimmer: {
           '100%': { transform: 'translateX(100%)' },

@@ -1,7 +1,9 @@
 import localFont from 'next/font/local'
 import { ReactNode } from 'react'
+import type { Metadata } from 'next'
 import './globals.css'
 
+import Header from './components/header'
 import Footer from './components/footer'
 import ContactForm from './components/contact-form'
 import AppToaster from './components/toaster'
@@ -48,15 +50,43 @@ const plexMono = localFont({
   display: 'swap',
 })
 
+export const metadata: Metadata = {
+  title: 'IC Assessoria – Vigilância e Análise de Dados em Saúde | Antônio Cândido',
+  description:
+    'Fortalecimento da gestão em saúde por meio da qualificação, organização, monitoramento e análise de informações estratégicas. Assessoria técnica por Antônio Cândido.',
+  keywords: [
+    'IC Assessoria',
+    'Antônio Cândido',
+    'Vigilância em Saúde',
+    'Análise de Dados em Saúde',
+    'Monitoramento de Indicadores',
+    'Gestão em Saúde',
+    'Sistemas de Informação em Saúde',
+    'Qualificação de Dados',
+  ],
+  authors: [{ name: 'Antônio Cândido' }],
+  icons: {
+    icon: '/favicon.svg',
+  },
+  openGraph: {
+    title: 'IC Assessoria – Vigilância e Análise de Dados em Saúde',
+    description:
+      'Transformamos dados em informações estratégicas para fortalecer a gestão, qualificar processos e apoiar decisões em saúde.',
+    type: 'website',
+    locale: 'pt_BR',
+  },
+}
+
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="pt-BR" className={`${inter.variable} ${plexMono.variable}`}>
-      <body className="font-sans relative selection:bg-blue-500/30 selection:text-sky-100">
+      <body className="font-sans relative selection:bg-orange-500/30 selection:text-orange-100">
         <ScrollProgress />
         <BackgroundEffects />
+        <Header />
         <main className="relative z-10">{children}</main>
-        <ContactForm />
-        <Footer />
+        {/* <ContactForm /> */}
+        {/* <Footer /> */}
         <BackToTop />
         <AppToaster />
       </body>
