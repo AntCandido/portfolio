@@ -10,7 +10,3 @@ This project was developed using the following technologies:
 - [NextJS](https://nextjs.org/)<br />
 - [HYGRAPH](https://hygraph.com/)<br />
 - [Vs Code](https://code.visualstudio.com/)
-
-  <h2>Project link</h2>
-  
-  - [Deploy](https://portfolio-ednario.vercel.app/)
