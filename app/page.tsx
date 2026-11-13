@@ -1,3 +1,4 @@
+import AboutSection from './pages/home/about-section'
 import HeroSection from './pages/home/hero-section'
 // import AboutSection from './pages/home/about-section'
 // import ServicesSection from './pages/home/services-section'
@@ -8,8 +9,8 @@ export default function Home() {
   return (
     <>
       <HeroSection />
-      {/*<AboutSection />
-      <ServicesSection />
+      <AboutSection />
+      {/*<ServicesSection />
       <DataImportanceSection />
       <DifferentialsSection />*/}
     </>
