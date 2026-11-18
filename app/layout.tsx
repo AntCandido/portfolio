@@ -85,7 +85,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <BackgroundEffects />
         <Header />
         <main className="relative z-10">{children}</main>
-        {/* <ContactForm /> */}
+        <ContactForm />
         <Footer />
         <BackToTop />
         <AppToaster />
