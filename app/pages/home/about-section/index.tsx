@@ -20,6 +20,7 @@ export interface AboutSectionProps {
     responsibleRole?: string
     responsibleBio?: string
     responsiblePhotoUrl?: string | null
+    institutionalImageUrl?: string | null
   }
 }
 
@@ -30,7 +31,10 @@ export default function AboutSection({ initialData }: AboutSectionProps = {}) {
   const p2 = initialData?.paragraph2 || about.p2
   const p3 = initialData?.paragraph3 || about.p3
   const responsibleName = initialData?.responsibleName || brand.responsible
+  const responsibleRole = initialData?.responsibleRole || about.responsibleCard.role
   const responsibleBio = initialData?.responsibleBio || about.responsibleCard.bio
+  const responsiblePhotoUrl = initialData?.responsiblePhotoUrl || null
+  const institutionalImageUrl = initialData?.institutionalImageUrl || null
 
   return (
     <section id="sobre" className="container py-24 relative">
@@ -46,7 +50,11 @@ export default function AboutSection({ initialData }: AboutSectionProps = {}) {
           <Reveal>
             <SectionTitle
               subtitle="Institucional"
-              title={initialData?.title ? initialData.title : "Transformando dados em decisões assertivas para a saúde pública e privada."}
+              title={
+                initialData?.title
+                  ? initialData.title
+                  : 'Transformando dados em decisões assertivas para a saúde pública e privada.'
+              }
             />
           </Reveal>
 
@@ -56,13 +64,9 @@ export default function AboutSection({ initialData }: AboutSectionProps = {}) {
                 {p1}
               </p>
 
-              <p>
-                {p2}
-              </p>
+              <p>{p2}</p>
 
-              <p className="text-slate-400">
-                {p3}
-              </p>
+              <p className="text-slate-400">{p3}</p>
             </div>
           </Reveal>
 
@@ -73,9 +77,7 @@ export default function AboutSection({ initialData }: AboutSectionProps = {}) {
                 <div className="w-8 h-8 rounded-lg bg-orange-500/15 border border-orange-500/30 flex items-center justify-center text-orange-400 mb-2.5">
                   <FiShield size={16} />
                 </div>
-                <h4 className="font-semibold text-white text-sm mb-1">
-                  Qualificação
-                </h4>
+                <h4 className="font-semibold text-white text-sm mb-1">Qualificação</h4>
                 <p className="text-xs text-slate-400 leading-relaxed">
                   Tratamento e consistência de dados para assegurar integridade e precisão das bases de saúde.
                 </p>
@@ -85,9 +87,7 @@ export default function AboutSection({ initialData }: AboutSectionProps = {}) {
                 <div className="w-8 h-8 rounded-lg bg-orange-500/15 border border-orange-500/30 flex items-center justify-center text-orange-400 mb-2.5">
                   <FiTrendingUp size={16} />
                 </div>
-                <h4 className="font-semibold text-white text-sm mb-1">
-                  Inteligência
-                </h4>
+                <h4 className="font-semibold text-white text-sm mb-1">Inteligência</h4>
                 <p className="text-xs text-slate-400 leading-relaxed">
                   Identificação oportuna de tendências epidemiológicas e áreas prioritárias de intervenção.
                 </p>
@@ -97,15 +97,27 @@ export default function AboutSection({ initialData }: AboutSectionProps = {}) {
                 <div className="w-8 h-8 rounded-lg bg-orange-500/15 border border-orange-500/30 flex items-center justify-center text-orange-400 mb-2.5">
                   <FiTarget size={16} />
                 </div>
-                <h4 className="font-semibold text-white text-sm mb-1">
-                  Evidências
-                </h4>
+                <h4 className="font-semibold text-white text-sm mb-1">Evidências</h4>
                 <p className="text-xs text-slate-400 leading-relaxed">
                   Subsídios técnicos fundamentados para gestão estratégica e alocação eficiente de recursos.
                 </p>
               </div>
             </div>
           </Reveal>
+
+          {/* Institutional Image Banner if provided */}
+          {institutionalImageUrl && (
+            <Reveal delay={0.18}>
+              <div className="mt-2 rounded-2xl overflow-hidden border border-white/10 shadow-2xl relative aspect-[21/9] sm:aspect-[2.4/1] bg-slate-950/80">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={institutionalImageUrl}
+                  alt="Imagem Institucional IC Assessoria"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </Reveal>
+          )}
         </div>
 
         {/* Right Column: Professional Profile Card of Antônio Cândido */}
@@ -118,8 +130,19 @@ export default function AboutSection({ initialData }: AboutSectionProps = {}) {
                 className="absolute -top-12 -right-12 w-36 h-36 bg-orange-500/15 rounded-full blur-2xl pointer-events-none"
               />
 
-              <div className="flex items-center gap-3 mb-6">
-                <Logo size="md" layout="mark-only" />
+              <div className="flex items-center gap-3.5 mb-6">
+                {responsiblePhotoUrl ? (
+                  <div className="relative w-16 h-16 rounded-2xl overflow-hidden border-2 border-orange-500/40 shadow-[0_0_20px_rgba(249,115,22,0.25)] shrink-0 bg-slate-900">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={responsiblePhotoUrl}
+                      alt={responsibleName}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                ) : (
+                  <Logo size="md" layout="mark-only" />
+                )}
                 <div>
                   <span className="text-[11px] font-mono uppercase tracking-wider text-orange-400 bg-orange-950/40 border border-orange-500/30 px-2.5 py-0.5 rounded-full">
                     Responsabilidade Técnica
@@ -127,6 +150,9 @@ export default function AboutSection({ initialData }: AboutSectionProps = {}) {
                   <h3 className="text-xl font-bold text-white mt-1">
                     {responsibleName}
                   </h3>
+                  {responsibleRole && (
+                    <p className="text-xs text-slate-400 mt-0.5">{responsibleRole}</p>
+                  )}
                 </div>
               </div>
 
@@ -134,9 +160,7 @@ export default function AboutSection({ initialData }: AboutSectionProps = {}) {
                 <p>
                   À frente da <strong className="text-white">IC Assessoria</strong>, {responsibleName} atua diretamente no apoio técnico a instituições, gestores e equipes na área da saúde.
                 </p>
-                <p className="text-slate-400">
-                  {responsibleBio}
-                </p>
+                <p className="text-slate-400">{responsibleBio}</p>
               </div>
 
               {/* Competency Badges */}

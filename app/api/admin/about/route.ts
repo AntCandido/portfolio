@@ -52,9 +52,10 @@ export async function PUT(req: NextRequest) {
         responsibleName: responsibleName || undefined,
         responsibleRole: responsibleRole || undefined,
         responsibleBio: responsibleBio || undefined,
-        responsiblePhotoUrl: responsiblePhotoUrl !== undefined ? responsiblePhotoUrl : undefined,
+        responsiblePhotoUrl:
+          responsiblePhotoUrl !== undefined ? (responsiblePhotoUrl ? responsiblePhotoUrl.trim() : null) : undefined,
         institutionalImageUrl:
-          institutionalImageUrl !== undefined ? institutionalImageUrl : undefined,
+          institutionalImageUrl !== undefined ? (institutionalImageUrl ? institutionalImageUrl.trim() : null) : undefined,
       },
       create: {
         id: 'default',
@@ -69,12 +70,13 @@ export async function PUT(req: NextRequest) {
         responsibleName: responsibleName || 'Antônio Cândido',
         responsibleRole: responsibleRole || 'Responsável pela iniciativa IC Assessoria',
         responsibleBio: responsibleBio || '',
-        responsiblePhotoUrl: responsiblePhotoUrl || null,
-        institutionalImageUrl: institutionalImageUrl || null,
+        responsiblePhotoUrl: responsiblePhotoUrl ? responsiblePhotoUrl.trim() : null,
+        institutionalImageUrl: institutionalImageUrl ? institutionalImageUrl.trim() : null,
       },
     })
 
     revalidatePath('/')
+    revalidatePath('/#sobre')
     return NextResponse.json({ success: true, data: updated })
   } catch (error: any) {
     console.error('[ABOUT PUT ERROR]', error)

@@ -1,13 +1,28 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import AdminGuard from '../components/admin-guard'
-import { FiSave, FiEye, FiRefreshCw, FiUser, FiInfo } from 'react-icons/fi'
+import {
+  FiSave,
+  FiEye,
+  FiRefreshCw,
+  FiUser,
+  FiInfo,
+  FiUploadCloud,
+  FiTrash2,
+  FiImage,
+} from 'react-icons/fi'
 import toast from 'react-hot-toast'
 
 export default function AdminAboutPage() {
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
+  const [uploadingPhoto, setUploadingPhoto] = useState(false)
+  const [uploadingInstitutional, setUploadingInstitutional] = useState(false)
+
+  const photoInputRef = useRef<HTMLInputElement>(null)
+  const institutionalInputRef = useRef<HTMLInputElement>(null)
+
   const [formData, setFormData] = useState({
     title: '',
     subtitle: '',
@@ -60,6 +75,47 @@ export default function AdminAboutPage() {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))
   }
 
+  const handleUploadImage = async (
+    e: React.ChangeEvent<HTMLInputElement>,
+    field: 'responsiblePhotoUrl' | 'institutionalImageUrl'
+  ) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error('O arquivo deve ter no máximo 5MB.')
+      return
+    }
+
+    const setUploading =
+      field === 'responsiblePhotoUrl' ? setUploadingPhoto : setUploadingInstitutional
+    setUploading(true)
+
+    const uploadData = new FormData()
+    uploadData.append('file', file)
+    uploadData.append('alt', file.name)
+
+    try {
+      const res = await fetch('/api/admin/media', {
+        method: 'POST',
+        body: uploadData,
+      })
+
+      const data = await res.json()
+      if (!res.ok) {
+        throw new Error(data.error || 'Erro no upload.')
+      }
+
+      setFormData((prev) => ({ ...prev, [field]: data.data.url }))
+      toast.success('Imagem enviada e vinculada com sucesso!')
+    } catch (err: any) {
+      toast.error(err.message || 'Erro ao enviar imagem.')
+    } finally {
+      setUploading(false)
+      if (e.target) e.target.value = ''
+    }
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setSaving(true)
@@ -75,7 +131,7 @@ export default function AdminAboutPage() {
         throw new Error(err.error || 'Erro ao salvar.')
       }
 
-      toast.success('Informações institucionais atualizadas com sucesso!')
+      toast.success('Informações institucionais e fotos atualizadas com sucesso!')
     } catch (error: any) {
       toast.error(error.message || 'Erro ao atualizar dados.')
     } finally {
@@ -93,7 +149,7 @@ export default function AdminAboutPage() {
               Sobre a IC Assessoria
             </h1>
             <p className="text-sm text-slate-400 mt-1">
-              Gerencie a apresentação institucional, missão, visão, valores e dados do responsável técnico Antônio Cândido.
+              Gerencie a apresentação institucional, missão, visão, valores e fotos de Antônio Cândido.
             </p>
           </div>
           <a
@@ -239,11 +295,11 @@ export default function AdminAboutPage() {
               </div>
             </div>
 
-            {/* Bloco 3: Perfil do Responsável Técnico (Antônio Cândido) */}
-            <div className="p-6 sm:p-8 rounded-3xl bg-slate-900/60 border border-white/[0.08] space-y-5">
+            {/* Bloco 3: Perfil do Responsável Técnico (Antônio Cândido) & Fotos */}
+            <div className="p-6 sm:p-8 rounded-3xl bg-slate-900/60 border border-white/[0.08] space-y-6">
               <h2 className="text-base font-bold text-white border-b border-white/[0.06] pb-3 flex items-center gap-2">
                 <FiUser className="text-orange-400" />
-                <span>3. Informações do Responsável Técnico</span>
+                <span>3. Informações & Imagens do Responsável Técnico</span>
               </h2>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -289,32 +345,156 @@ export default function AdminAboutPage() {
                 />
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider font-mono mb-1.5">
-                    Foto do Responsável (URL ou caminho)
-                  </label>
+              {/* Uploads e Imagens */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-white/[0.06]">
+                {/* 1. Foto do Responsável */}
+                <div className="space-y-3 p-5 rounded-2xl bg-white/[0.02] border border-white/[0.06]">
+                  <div className="flex items-center justify-between">
+                    <label className="block text-xs font-semibold text-white uppercase tracking-wider font-mono">
+                      Foto do Responsável
+                    </label>
+                    <input
+                      type="file"
+                      ref={photoInputRef}
+                      onChange={(e) => handleUploadImage(e, 'responsiblePhotoUrl')}
+                      accept="image/*"
+                      className="hidden"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => photoInputRef.current?.click()}
+                      disabled={uploadingPhoto}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-orange-500/20 hover:bg-orange-500/30 text-orange-300 border border-orange-500/40 text-xs font-medium transition-all"
+                    >
+                      {uploadingPhoto ? (
+                        <>
+                          <FiRefreshCw className="animate-spin" size={12} />
+                          <span>Enviando...</span>
+                        </>
+                      ) : (
+                        <>
+                          <FiUploadCloud size={13} />
+                          <span>Fazer Upload</span>
+                        </>
+                      )}
+                    </button>
+                  </div>
+
                   <input
                     type="text"
                     name="responsiblePhotoUrl"
                     value={formData.responsiblePhotoUrl}
                     onChange={handleChange}
-                    placeholder="/profile.jpeg ou URL do Supabase Storage"
-                    className="w-full px-4 py-2.5 rounded-xl bg-black/40 border border-white/10 text-white text-sm focus:outline-none focus:border-orange-500"
+                    placeholder="Cole a URL ou use o botão de Upload acima"
+                    className="w-full px-3 py-2 rounded-xl bg-black/40 border border-white/10 text-white text-xs focus:outline-none focus:border-orange-500"
                   />
+
+                  {/* Preview Foto */}
+                  {formData.responsiblePhotoUrl ? (
+                    <div className="flex items-center gap-4 pt-2">
+                      <div className="relative w-16 h-16 rounded-xl overflow-hidden border border-orange-500/50 bg-black shrink-0">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={formData.responsiblePhotoUrl}
+                          alt="Pré-visualização da foto"
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <span className="text-[11px] font-mono text-emerald-400 block">
+                          ✓ Foto vinculada
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => setFormData((prev) => ({ ...prev, responsiblePhotoUrl: '' }))}
+                          className="text-xs text-red-400 hover:text-red-300 flex items-center gap-1"
+                        >
+                          <FiTrash2 size={12} />
+                          <span>Remover foto</span>
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <p className="text-[11px] text-slate-500 italic">
+                      Nenhuma foto enviada ainda. O card exibirá o emblema padrão da IC Assessoria se deixado em branco.
+                    </p>
+                  )}
                 </div>
-                <div>
-                  <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider font-mono mb-1.5">
-                    Imagem Institucional Complementar (opcional)
-                  </label>
+
+                {/* 2. Imagem Institucional Complementar */}
+                <div className="space-y-3 p-5 rounded-2xl bg-white/[0.02] border border-white/[0.06]">
+                  <div className="flex items-center justify-between">
+                    <label className="block text-xs font-semibold text-white uppercase tracking-wider font-mono">
+                      Imagem Institucional
+                    </label>
+                    <input
+                      type="file"
+                      ref={institutionalInputRef}
+                      onChange={(e) => handleUploadImage(e, 'institutionalImageUrl')}
+                      accept="image/*"
+                      className="hidden"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => institutionalInputRef.current?.click()}
+                      disabled={uploadingInstitutional}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-orange-500/20 hover:bg-orange-500/30 text-orange-300 border border-orange-500/40 text-xs font-medium transition-all"
+                    >
+                      {uploadingInstitutional ? (
+                        <>
+                          <FiRefreshCw className="animate-spin" size={12} />
+                          <span>Enviando...</span>
+                        </>
+                      ) : (
+                        <>
+                          <FiUploadCloud size={13} />
+                          <span>Fazer Upload</span>
+                        </>
+                      )}
+                    </button>
+                  </div>
+
                   <input
                     type="text"
                     name="institutionalImageUrl"
                     value={formData.institutionalImageUrl}
                     onChange={handleChange}
-                    placeholder="URL no Storage"
-                    className="w-full px-4 py-2.5 rounded-xl bg-black/40 border border-white/10 text-white text-sm focus:outline-none focus:border-orange-500"
+                    placeholder="Cole a URL ou use o botão de Upload acima"
+                    className="w-full px-3 py-2 rounded-xl bg-black/40 border border-white/10 text-white text-xs focus:outline-none focus:border-orange-500"
                   />
+
+                  {/* Preview Imagem Institucional */}
+                  {formData.institutionalImageUrl ? (
+                    <div className="flex items-center gap-4 pt-2">
+                      <div className="relative w-24 h-14 rounded-xl overflow-hidden border border-white/20 bg-black shrink-0">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={formData.institutionalImageUrl}
+                          alt="Pré-visualização institucional"
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <span className="text-[11px] font-mono text-emerald-400 block">
+                          ✓ Imagem vinculada
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setFormData((prev) => ({ ...prev, institutionalImageUrl: '' }))
+                          }
+                          className="text-xs text-red-400 hover:text-red-300 flex items-center gap-1"
+                        >
+                          <FiTrash2 size={12} />
+                          <span>Remover imagem</span>
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <p className="text-[11px] text-slate-500 italic">
+                      Opcional. Se configurada, aparecerá como banner complementar da apresentação institucional.
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
@@ -322,7 +502,7 @@ export default function AdminAboutPage() {
             {/* Bottom Bar */}
             <div className="sticky bottom-4 z-20 p-4 rounded-2xl bg-slate-900/95 border border-white/10 backdrop-blur-xl shadow-2xl flex items-center justify-between">
               <span className="text-xs text-slate-400">
-                Os dados são gravados com versionamento no banco Supabase.
+                Os dados e as imagens são gravados diretamente no banco de dados e sincronizados com o site.
               </span>
               <button
                 type="submit"
