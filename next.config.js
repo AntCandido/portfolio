@@ -4,8 +4,9 @@ const nextConfig = {
     remotePatterns: [
       { protocol: 'https', hostname: 'media.licdn.com' },
       { protocol: 'https', hostname: 'media.graphassets.com' },
-      { protocol: 'https', hostname: 'us-west-2.graphassets.com' },
-      { protocol: 'https', hostname: '*.graphassets.com' },
+      { protocol: 'https', hostname: '*.supabase.co' },
+      { protocol: 'https', hostname: '**.supabase.co' },
+      { protocol: 'https', hostname: 'images.unsplash.com' },
     ],
   },
 }

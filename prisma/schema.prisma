@@ -1,0 +1,154 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model AdminUser {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String   @default("Antônio Cândido")
+  role         String   @default("ADMIN")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("admin_users")
+}
+
+model SiteSettings {
+  id             String   @id @default("default")
+  siteName       String   @default("IC Assessoria")
+  tagline        String   @default("Vigilância e Análise de Dados em Saúde")
+  logoUrl        String?
+  faviconUrl     String?
+  primaryColor   String   @default("#f97316")
+  footerText     String   @default("© {year} IC Assessoria – Vigilância e Análise de Dados em Saúde. Todos os direitos reservados.")
+  seoTitle       String   @default("IC Assessoria – Vigilância e Análise de Dados em Saúde | Antônio Cândido")
+  seoDescription String   @db.Text
+  seoKeywords    String   @default("IC Assessoria, Antônio Cândido, Vigilância em Saúde, Análise de Dados em Saúde, Gestão em Saúde")
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@map("site_settings")
+}
+
+model HomeContent {
+  id               String   @id @default("default")
+  badgeText        String   @default("Assessoria Especializada em Saúde")
+  heroTitle        String   @default("Inteligência em saúde para decisões mais estratégicas.")
+  heroSubtitle     String   @db.Text
+  heroImageUrl     String?
+  primaryCtaText   String   @default("Fale com a Assessoria")
+  primaryCtaLink   String   @default("#contato")
+  secondaryCtaText String   @default("Conheça Nossos Serviços")
+  secondaryCtaLink String   @default("#servicos")
+  statsData        Json?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@map("home_content")
+}
+
+model AboutContent {
+  id                    String   @id @default("default")
+  title                 String   @default("Sobre a IC Assessoria")
+  subtitle              String   @default("Nossa Proposta Institucional")
+  paragraph1            String   @db.Text
+  paragraph2            String   @db.Text
+  paragraph3            String   @db.Text
+  mission               String?  @db.Text
+  vision                String?  @db.Text
+  values                String?  @db.Text
+  responsibleName       String   @default("Antônio Cândido")
+  responsibleRole       String   @default("Responsável pela iniciativa IC Assessoria")
+  responsibleBio        String   @db.Text
+  responsiblePhotoUrl   String?
+  institutionalImageUrl String?
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  @@map("about_content")
+}
+
+model Service {
+  id               String   @id @default(cuid())
+  slug             String   @unique
+  title            String
+  shortDescription String   @db.Text
+  description      String   @db.Text
+  iconName         String   @default("FiActivity")
+  imageUrl         String?
+  category         String   @default("Assessoria Técnica")
+  deliverables     Json?
+  order            Int      @default(0)
+  published        Boolean  @default(true)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@map("services")
+}
+
+model Article {
+  id            String    @id @default(cuid())
+  slug          String    @unique
+  title         String
+  excerpt       String    @db.Text
+  content       String    @db.Text
+  coverImageUrl String?
+  author        String    @default("Antônio Cândido")
+  published     Boolean   @default(false)
+  publishedAt   DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@map("articles")
+}
+
+model PortfolioProject {
+  id          String   @id @default(cuid())
+  title       String
+  description String   @db.Text
+  category    String   @default("Projeto")
+  imageUrl    String?
+  projectDate String?
+  order       Int      @default(0)
+  published   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("portfolio_projects")
+}
+
+model Media {
+  id           String   @id @default(cuid())
+  filename     String
+  originalName String
+  mimeType     String
+  size         Int
+  url          String
+  alt          String?
+  createdAt    DateTime @default(now())
+
+  @@map("media")
+}
+
+model ContactSettings {
+  id          String   @id @default("default")
+  title       String   @default("Vamos conversar sobre a gestão em saúde?")
+  subtitle    String   @default("Entre em Contato")
+  description String   @db.Text
+  whatsapp    String   @default("")
+  email       String   @default("contato@icassessoria.com.br")
+  instagram   String   @default("")
+  linkedin    String   @default("https://www.linkedin.com")
+  address     String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("contact_settings")
+}

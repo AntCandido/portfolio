@@ -6,8 +6,31 @@ import Reveal from '@/app/components/reveal'
 import Logo from '@/app/components/brand/logo'
 import { IC_ASSESSORIA_INFO } from '@/app/data/ic-assessoria'
 
-export default function AboutSection() {
+export interface AboutSectionProps {
+  initialData?: {
+    title?: string
+    subtitle?: string
+    paragraph1?: string
+    paragraph2?: string
+    paragraph3?: string
+    mission?: string | null
+    vision?: string | null
+    values?: string | null
+    responsibleName?: string
+    responsibleRole?: string
+    responsibleBio?: string
+    responsiblePhotoUrl?: string | null
+  }
+}
+
+export default function AboutSection({ initialData }: AboutSectionProps = {}) {
   const { about, brand } = IC_ASSESSORIA_INFO
+
+  const p1 = initialData?.paragraph1 || about.p1
+  const p2 = initialData?.paragraph2 || about.p2
+  const p3 = initialData?.paragraph3 || about.p3
+  const responsibleName = initialData?.responsibleName || brand.responsible
+  const responsibleBio = initialData?.responsibleBio || about.responsibleCard.bio
 
   return (
     <section id="sobre" className="container py-24 relative">
@@ -23,22 +46,22 @@ export default function AboutSection() {
           <Reveal>
             <SectionTitle
               subtitle="Institucional"
-              title="Transformando dados em decisões assertivas para a saúde pública e privada."
+              title={initialData?.title ? initialData.title : "Transformando dados em decisões assertivas para a saúde pública e privada."}
             />
           </Reveal>
 
           <Reveal delay={0.1}>
             <div className="space-y-4 text-slate-300 text-sm sm:text-base leading-relaxed">
               <p className="p-4 rounded-2xl bg-orange-950/20 border-l-2 border-orange-500 text-slate-200">
-                {about.p1}
+                {p1}
               </p>
 
               <p>
-                {about.p2}
+                {p2}
               </p>
 
               <p className="text-slate-400">
-                {about.p3}
+                {p3}
               </p>
             </div>
           </Reveal>
@@ -102,17 +125,17 @@ export default function AboutSection() {
                     Responsabilidade Técnica
                   </span>
                   <h3 className="text-xl font-bold text-white mt-1">
-                    {brand.responsible}
+                    {responsibleName}
                   </h3>
                 </div>
               </div>
 
               <div className="space-y-3 text-slate-300 text-sm leading-relaxed mb-6">
                 <p>
-                  À frente da <strong className="text-white">IC Assessoria</strong>, Antônio Cândido atua diretamente no apoio técnico a instituições, gestores e equipes na área da saúde.
+                  À frente da <strong className="text-white">IC Assessoria</strong>, {responsibleName} atua diretamente no apoio técnico a instituições, gestores e equipes na área da saúde.
                 </p>
                 <p className="text-slate-400">
-                  Sua atuação é concentrada na vigilância em saúde, monitoramento e análise de indicadores, qualificação do uso dos sistemas de informação e elaboração de subsídios técnicos estratégicos para a tomada de decisões.
+                  {responsibleBio}
                 </p>
               </div>
 

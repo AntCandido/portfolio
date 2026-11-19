@@ -2,14 +2,7 @@ import localFont from 'next/font/local'
 import { ReactNode } from 'react'
 import type { Metadata } from 'next'
 import './globals.css'
-
-import Header from './components/header'
-import Footer from './components/footer'
-import ContactForm from './components/contact-form'
 import AppToaster from './components/toaster'
-import ScrollProgress from './components/scroll-progress'
-import BackgroundEffects from './components/background-effects'
-import BackToTop from './components/back-to-top'
 
 const inter = localFont({
   src: [
@@ -80,15 +73,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="pt-BR" className={`${inter.variable} ${plexMono.variable}`}>
-      <body className="font-sans relative selection:bg-orange-500/30 selection:text-orange-100">
-        <ScrollProgress />
-        <BackgroundEffects />
-        <Header />
-        <main className="relative z-10">{children}</main>
-        <ContactForm />
-        <Footer />
-        <BackToTop />
+      <body className="font-sans relative bg-slate-950 text-slate-100 selection:bg-orange-500/30 selection:text-orange-100">
         <AppToaster />
+        {children}
       </body>
     </html>
   )
